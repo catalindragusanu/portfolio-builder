@@ -1,0 +1,138 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Navigation from "../../components/Navigation.astro";
+import Footer from "../../components/Footer.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+const sortedProjects = projects.sort(
+    (a, b) =>
+        new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
+);
+
+// Get unique tags
+const allTags = [...new Set(projects.flatMap((p) => p.data.tags))].sort();
+---
+
+<BaseLayout
+    title="Projects"
+    description="Browse my portfolio of web development projects and applications."
+>
+    <Navigation slot="header" />
+
+    <!-- Hero -->
+    <section class="py-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                    My <span class="text-gradient">Projects</span>
+                </h1>
+                <p class="text-lg text-slate-600 dark:text-slate-400">
+                    A collection of applications, websites, and experiments I've
+                    built. Each project taught me something new.
+                </p>
+            </div>
+
+            <!-- Filter Tags -->
+            <div
+                class="flex flex-wrap justify-center gap-2 mb-12"
+                id="tag-filters"
+            >
+                <button class="filter-btn active" data-tag="all">
+                    All Projects
+                </button>
+                {
+                    allTags.map((tag) => (
+                        <button class="filter-btn" data-tag={tag}>
+                            {tag}
+                        </button>
+                    ))
+                }
+            </div>
+
+            <!-- Projects Grid -->
+            <div
+                class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+                id="projects-grid"
+            >
+                {
+                    sortedProjects.map((project) => (
+                        <div
+                            class="project-item"
+                            data-tags={project.data.tags.join(",")}
+                        >
+                            <ProjectCard project={project} />
+                        </div>
+                    ))
+                }
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden text-center py-16">
+                <div class="text-6xl mb-4">🔍</div>
+                <h3 class="text-xl font-semibold mb-2">No projects found</h3>
+                <p class="text-slate-600 dark:text-slate-400">
+                    Try selecting a different tag.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+    .filter-btn {
+        @apply px-4 py-2 rounded-xl font-medium text-sm;
+        @apply bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400;
+        @apply border border-transparent;
+        @apply transition-all duration-200;
+        @apply hover:bg-slate-200 dark:hover:bg-slate-700;
+    }
+
+    .filter-btn.active {
+        @apply bg-primary-100 dark:bg-primary-900/30;
+        @apply text-primary-700 dark:text-primary-300;
+        @apply border-primary-200 dark:border-primary-800;
+    }
+</style>
+
+<script>
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const projectItems = document.querySelectorAll(".project-item");
+    const emptyState = document.getElementById("empty-state");
+
+    filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const tag = button.getAttribute("data-tag");
+
+            // Update active state
+            filterButtons.forEach((btn) => btn.classList.remove("active"));
+            button.classList.add("active");
+
+            // Filter projects
+            let visibleCount = 0;
+            projectItems.forEach((item) => {
+                const tags = item.getAttribute("data-tags")?.split(",") || [];
+                const shouldShow = tag === "all" || tags.includes(tag);
+
+                if (shouldShow) {
+                    item.classList.remove("hidden");
+                    visibleCount++;
+                } else {
+                    item.classList.add("hidden");
+                }
+            });
+
+            // Show/hide empty state
+            if (emptyState) {
+                if (visibleCount === 0) {
+                    emptyState.classList.remove("hidden");
+                } else {
+                    emptyState.classList.add("hidden");
+                }
+            }
+        });
+    });
+</script>

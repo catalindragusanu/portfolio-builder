@@ -1,0 +1,300 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import BlogCard from "../components/BlogCard.astro";
+import { getCollection } from "astro:content";
+
+// Configuration - Update these values or use environment variables
+const config = {
+    name: import.meta.env.PUBLIC_AUTHOR_NAME || "Your Name",
+    role: import.meta.env.PUBLIC_AUTHOR_ROLE || "Full-Stack Developer",
+    tagline: import.meta.env.PUBLIC_TAGLINE || "I build exceptional digital experiences with modern technologies. Passionate about clean code, automation, and user-centric design.",
+    yearsOfExperience: import.meta.env.PUBLIC_YEARS_EXPERIENCE || "5+",
+};
+
+const projects = await getCollection("projects");
+const featuredProjects = projects
+    .filter((p) => p.data.featured)
+    .sort(
+        (a, b) =>
+            new Date(b.data.pubDate).getTime() -
+            new Date(a.data.pubDate).getTime(),
+    )
+    .slice(0, 3);
+
+const posts = await getCollection("posts", ({ data }) => !data.draft);
+const recentPosts = posts
+    .sort(
+        (a, b) =>
+            new Date(b.data.pubDate).getTime() -
+            new Date(a.data.pubDate).getTime(),
+    )
+    .slice(0, 2);
+---
+
+<BaseLayout
+    title="Home"
+    description="Welcome to my portfolio - showcasing projects and sharing insights on web development."
+>
+    <Navigation slot="header" />
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[90vh] flex items-center overflow-hidden">
+        <!-- Background Effects -->
+        <div class="absolute inset-0 -z-10">
+            <div
+                class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl animate-float"
+            >
+            </div>
+            <div
+                class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-500/20 rounded-full blur-3xl animate-float animate-delay-300"
+            >
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto px-6 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Text Content -->
+                <div class="animate-fade-in">
+                    <div
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm font-medium mb-6"
+                    >
+                        <span class="relative flex h-2 w-2">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"
+                            ></span>
+                            <span
+                                class="relative inline-flex rounded-full h-2 w-2 bg-primary-500"
+                            ></span>
+                        </span>
+                        Available for opportunities
+                    </div>
+
+                    <h1
+                        class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+                    >
+                        Hi, I'm <span class="text-gradient">{config.name}</span>
+                        <br />
+                        <span class="text-slate-600 dark:text-slate-400"
+                            >{config.role}</span
+                        >
+                    </h1>
+
+                    <p
+                        class="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-xl"
+                    >
+                        {config.tagline}
+                    </p>
+
+                    <div class="flex flex-wrap gap-4">
+                        <a href="/projects" class="btn-primary">
+                            <svg
+                                class="w-5 h-5 mr-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                                ></path>
+                            </svg>
+                            View Projects
+                        </a>
+                        <a href="/about" class="btn-secondary"> Learn More </a>
+                    </div>
+                </div>
+
+                <!-- Hero Image / Avatar -->
+                <div
+                    class="relative flex justify-center lg:justify-end animate-slide-up"
+                >
+                    <div class="relative">
+                        <!-- Glow Effect -->
+                        <div
+                            class="absolute inset-0 bg-gradient-to-r from-primary-500 to-accent-500 rounded-3xl blur-2xl opacity-30 animate-glow"
+                        >
+                        </div>
+
+                        <!-- Main Card -->
+                        <div class="relative glass-card p-8 w-80">
+                            <div
+                                class="w-48 h-48 mx-auto rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mb-6"
+                            >
+                                <span class="text-7xl">👨‍💻</span>
+                            </div>
+
+                            <!-- Stats -->
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div
+                                        class="text-2xl font-bold text-gradient"
+                                    >
+                                        {projects.length}+
+                                    </div>
+                                    <div
+                                        class="text-sm text-slate-500 dark:text-slate-400"
+                                    >
+                                        Projects
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        class="text-2xl font-bold text-gradient"
+                                    >
+                                        {config.yearsOfExperience}
+                                    </div>
+                                    <div
+                                        class="text-sm text-slate-500 dark:text-slate-400"
+                                    >
+                                        Years Exp
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        class="text-2xl font-bold text-gradient"
+                                    >
+                                        {posts.length}+
+                                    </div>
+                                    <div
+                                        class="text-sm text-slate-500 dark:text-slate-400"
+                                    >
+                                        Articles
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section class="py-20 bg-slate-100/50 dark:bg-slate-800/20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div
+                class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12"
+            >
+                <div>
+                    <h2 class="section-title">
+                        Featured <span class="text-gradient">Projects</span>
+                    </h2>
+                    <p class="section-subtitle">
+                        A selection of my recent work and personal projects.
+                    </p>
+                </div>
+                <a
+                    href="/projects"
+                    class="inline-flex items-center text-primary-600 dark:text-primary-400 font-medium hover:underline"
+                >
+                    View all projects
+                    <svg
+                        class="w-4 h-4 ml-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {
+                    featuredProjects.map((project) => (
+                        <ProjectCard project={project} />
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Blog Posts Section -->
+    <section class="py-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div
+                class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12"
+            >
+                <div>
+                    <h2 class="section-title">
+                        Latest <span class="text-gradient">Articles</span>
+                    </h2>
+                    <p class="section-subtitle">
+                        Thoughts on development, DevOps, and everything in
+                        between.
+                    </p>
+                </div>
+                <a
+                    href="/blog"
+                    class="inline-flex items-center text-primary-600 dark:text-primary-400 font-medium hover:underline"
+                >
+                    View all posts
+                    <svg
+                        class="w-4 h-4 ml-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                {recentPosts.map((post) => <BlogCard post={post} />)}
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="py-20 bg-slate-100/50 dark:bg-slate-800/20">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="section-title mb-4">
+                Technologies I <span class="text-gradient">Work With</span>
+            </h2>
+            <p class="section-subtitle mx-auto mb-12">
+                Always learning, always building.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                {
+                    [
+                        "JavaScript",
+                        "TypeScript",
+                        "React",
+                        "Next.js",
+                        "Astro",
+                        "Node.js",
+                        "Python",
+                        "PostgreSQL",
+                        "MongoDB",
+                        "Docker",
+                        "AWS",
+                        "Git",
+                    ].map((tech) => (
+                        <div class="glass-card px-6 py-3 hover-lift">
+                            <span class="font-medium text-slate-700 dark:text-slate-300">
+                                {tech}
+                            </span>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+
+    <Footer slot="footer" />
+</BaseLayout>

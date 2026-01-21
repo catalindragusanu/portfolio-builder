@@ -1,0 +1,322 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+
+// Configuration - Update these values or use environment variables
+const config = {
+    email: import.meta.env.PUBLIC_CONTACT_EMAIL || "hello@yourdomain.com",
+    formSubmitEmail: import.meta.env.PUBLIC_FORMSUBMIT_EMAIL || import.meta.env.PUBLIC_CONTACT_EMAIL || "hello@yourdomain.com",
+    github: import.meta.env.PUBLIC_GITHUB_USERNAME || "yourusername",
+    linkedin: import.meta.env.PUBLIC_LINKEDIN_USERNAME || "yourusername",
+    twitter: import.meta.env.PUBLIC_TWITTER_USERNAME || "yourusername",
+    siteUrl: import.meta.env.SITE_URL || import.meta.env.PUBLIC_SITE_URL || "https://myportfolio.com",
+};
+---
+
+<BaseLayout
+    title="Contact"
+    description="Get in touch with me for projects, collaborations, or just to say hello."
+>
+    <Navigation slot="header" />
+
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                    Get in <span class="text-gradient">Touch</span>
+                </h1>
+                <p class="text-lg text-slate-600 dark:text-slate-400">
+                    Have a project in mind or just want to chat? I'd love to
+                    hear from you.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div class="glass-card p-8">
+                    <form
+                        id="contact-form"
+                        action={`https://formsubmit.co/${config.formSubmitEmail}`}
+                        method="POST"
+                        class="space-y-6"
+                    >
+                        <!-- Honeypot for spam prevention -->
+                        <input type="text" name="_honey" style="display:none" />
+                        <!-- Disable captcha -->
+                        <input type="hidden" name="_captcha" value="false" />
+                        <!-- Success redirect -->
+                        <input
+                            type="hidden"
+                            name="_next"
+                            value={`${config.siteUrl}/contact?success=true`}
+                        />
+
+                        <div>
+                            <label
+                                for="name"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                            >
+                                Name
+                            </label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                required
+                                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                                placeholder="Your name"
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                for="email"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                            >
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                required
+                                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                                placeholder="you@example.com"
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                for="subject"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                            >
+                                Subject
+                            </label>
+                            <input
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                required
+                                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                                placeholder="What's this about?"
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                for="message"
+                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                            >
+                                Message
+                            </label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                rows="5"
+                                required
+                                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all resize-none"
+                                placeholder="Tell me about your project..."
+                            ></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full btn-primary">
+                            <svg
+                                class="w-5 h-5 mr-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                            Send Message
+                        </button>
+                    </form>
+
+                    <!-- Success Message -->
+                    <div id="success-message" class="hidden text-center py-8">
+                        <div
+                            class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center"
+                        >
+                            <svg
+                                class="w-8 h-8 text-green-600 dark:text-green-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Message Sent!</h3>
+                        <p class="text-slate-600 dark:text-slate-400">
+                            Thanks for reaching out. I'll get back to you soon.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="space-y-8">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-4">
+                            Let's work together
+                        </h2>
+                        <p class="text-slate-600 dark:text-slate-400">
+                            I'm always interested in hearing about new projects
+                            and opportunities. Whether you have a question or
+                            just want to say hi, feel free to reach out!
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <a
+                            href={`mailto:${config.email}`}
+                            class="flex items-center gap-4 p-4 glass-card hover-lift group"
+                        >
+                            <div
+                                class="w-12 h-12 rounded-xl bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform"
+                            >
+                                <svg
+                                    class="w-6 h-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="font-medium">Email</div>
+                                <div
+                                    class="text-sm text-slate-600 dark:text-slate-400"
+                                >
+                                    {config.email}
+                                </div>
+                            </div>
+                        </a>
+
+                        <a
+                            href={`https://github.com/${config.github}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center gap-4 p-4 glass-card hover-lift group"
+                        >
+                            <div
+                                class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 group-hover:scale-110 transition-transform"
+                            >
+                                <svg
+                                    class="w-6 h-6"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="font-medium">GitHub</div>
+                                <div
+                                    class="text-sm text-slate-600 dark:text-slate-400"
+                                >
+                                    @{config.github}
+                                </div>
+                            </div>
+                        </a>
+
+                        <a
+                            href={`https://linkedin.com/in/${config.linkedin}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center gap-4 p-4 glass-card hover-lift group"
+                        >
+                            <div
+                                class="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform"
+                            >
+                                <svg
+                                    class="w-6 h-6"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="font-medium">LinkedIn</div>
+                                <div
+                                    class="text-sm text-slate-600 dark:text-slate-400"
+                                >
+                                    Connect with me
+                                </div>
+                            </div>
+                        </a>
+
+                        <a
+                            href={`https://twitter.com/${config.twitter}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center gap-4 p-4 glass-card hover-lift group"
+                        >
+                            <div
+                                class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 group-hover:scale-110 transition-transform"
+                            >
+                                <svg
+                                    class="w-6 h-6"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="font-medium">Twitter / X</div>
+                                <div
+                                    class="text-sm text-slate-600 dark:text-slate-400"
+                                >
+                                    @{config.twitter}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <Footer slot="footer" />
+</BaseLayout>
+
+<script>
+    // Check for success parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("success") === "true") {
+        const form = document.getElementById("contact-form");
+        const successMessage = document.getElementById("success-message");
+        if (form && successMessage) {
+            form.classList.add("hidden");
+            successMessage.classList.remove("hidden");
+        }
+        // Clean URL
+        window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname,
+        );
+    }
+</script>

@@ -1,0 +1,10 @@
+{
+    "name": "Sarah Chen",
+    "role": "Engineering Manager",
+    "company": "TechCorp Inc.",
+    "companyUrl": "https://techcorp.example.com",
+    "avatar": "/images/testimonials/sarah.jpg",
+    "quote": "One of the most talented developers I've worked with. Exceptional problem-solving skills and a true team player. Consistently delivers high-quality code and mentors others effectively.",
+    "featured": true,
+    "order": 1
+}

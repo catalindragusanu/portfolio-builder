@@ -1,0 +1,131 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import ExperienceCard from "../components/ExperienceCard.astro";
+import SkillsGrid from "../components/SkillsGrid.astro";
+import TestimonialsGrid from "../components/TestimonialsGrid.astro";
+import { getCollection } from "astro:content";
+
+// Configuration
+const config = {
+    email: import.meta.env.PUBLIC_CONTACT_EMAIL || "hello@yourdomain.com",
+};
+
+// Fetch all content
+const experience = await getCollection("experience");
+const skills = await getCollection("skills");
+const testimonials = await getCollection("testimonials");
+
+// Sort experience by order (most recent first)
+const sortedExperience = experience.sort(
+    (a: any, b: any) => (a.data.order || 0) - (b.data.order || 0),
+);
+
+// Sort skills by order
+const sortedSkills = skills.sort(
+    (a: any, b: any) => (a.data.order || 0) - (b.data.order || 0),
+);
+
+// Filter featured testimonials
+const featuredTestimonials = testimonials
+    .filter((t: any) => t.data.featured)
+    .sort((a: any, b: any) => (a.data.order || 0) - (b.data.order || 0));
+---
+
+<BaseLayout
+    title="Experience"
+    description="My professional journey, skills, and what people say about working with me."
+>
+    <Navigation slot="header" />
+
+    <!-- Hero -->
+    <section class="py-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                    My <span class="text-gradient">Experience</span>
+                </h1>
+                <p class="text-lg text-slate-600 dark:text-slate-400">
+                    A journey through my professional career, the skills I've
+                    developed, and what colleagues have to say about working
+                    with me.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Experience Timeline -->
+    <section class="py-16 bg-slate-100/50 dark:bg-slate-800/20">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="section-title text-center mb-4">
+                Work <span class="text-gradient">History</span>
+            </h2>
+            <p class="section-subtitle text-center mx-auto mb-12">
+                My professional journey from junior developer to senior
+                engineer.
+            </p>
+
+            <div class="relative">
+                {
+                    sortedExperience.map((exp: any) => (
+                        <ExperienceCard experience={exp} />
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="py-16">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="section-title text-center mb-4">
+                Technical <span class="text-gradient">Skills</span>
+            </h2>
+            <p class="section-subtitle text-center mx-auto mb-12">
+                Technologies and tools I work with daily.
+            </p>
+
+            <SkillsGrid skills={sortedSkills} />
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    {
+        featuredTestimonials.length > 0 && (
+            <section class="py-16 bg-slate-100/50 dark:bg-slate-800/20">
+                <div class="max-w-6xl mx-auto px-6">
+                    <h2 class="section-title text-center mb-4">
+                        What People <span class="text-gradient">Say</span>
+                    </h2>
+                    <p class="section-subtitle text-center mx-auto mb-12">
+                        Kind words from colleagues and clients I've worked with.
+                    </p>
+
+                    <TestimonialsGrid testimonials={featuredTestimonials} />
+                </div>
+            </section>
+        )
+    }
+
+    <!-- CTA -->
+    <section class="py-16">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="section-title mb-4">
+                Want to <span class="text-gradient">Work Together</span>?
+            </h2>
+            <p class="section-subtitle mx-auto mb-8">
+                I'm always open to discussing new opportunities and interesting
+                projects.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href={`mailto:${config.email}`} class="btn-primary">
+                    Get in Touch
+                </a>
+                <a href="/projects" class="btn-secondary"> View My Work </a>
+            </div>
+        </div>
+    </section>
+
+    <Footer slot="footer" />
+</BaseLayout>

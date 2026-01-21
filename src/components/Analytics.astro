@@ -1,0 +1,76 @@
+---
+/**
+ * Analytics Component
+ * Supports Google Analytics 4, Plausible, and Umami
+ * 
+ * Configure via environment variables in .env file:
+ * - PUBLIC_GA_ID: Google Analytics 4 Measurement ID (e.g., G-XXXXXXXXXX)
+ * - PUBLIC_PLAUSIBLE_DOMAIN: Your domain for Plausible Analytics
+ * - PUBLIC_UMAMI_WEBSITE_ID: Your Umami website ID
+ * - PUBLIC_UMAMI_URL: Your Umami instance URL
+ */
+
+interface Props {
+  gaId?: string;
+  plausibleDomain?: string;
+  umamiWebsiteId?: string;
+  umamiUrl?: string;
+}
+
+const {
+  gaId = import.meta.env.PUBLIC_GA_ID,
+  plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN,
+  umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID,
+  umamiUrl = import.meta.env.PUBLIC_UMAMI_URL,
+} = Astro.props;
+
+const isProd = import.meta.env.PROD;
+---
+
+{/* Only load analytics in production */}
+{isProd && (
+  <>
+    {/* Google Analytics 4 */}
+    {gaId && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+        <script is:inline define:vars={{ gaId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', gaId, {
+            anonymize_ip: true,
+            cookie_flags: 'SameSite=Strict;Secure'
+          });
+        </script>
+      </>
+    )}
+    
+    {/* Plausible Analytics - privacy-friendly */}
+    {plausibleDomain && (
+      <script
+        is:inline
+        defer
+        data-domain={plausibleDomain}
+        src="https://plausible.io/js/script.js"
+      ></script>
+    )}
+    
+    {/* Umami Analytics - privacy-friendly, self-hostable */}
+    {umamiWebsiteId && umamiUrl && (
+      <script
+        is:inline
+        defer
+        data-website-id={umamiWebsiteId}
+        src={`${umamiUrl}/script.js`}
+      ></script>
+    )}
+  </>
+)}
+
+{/* Development mode indicator */}
+{!isProd && (
+  <script is:inline>
+    console.log('📊 Analytics disabled in development mode');
+  </script>
+)}

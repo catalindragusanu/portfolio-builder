@@ -1,0 +1,102 @@
+---
+interface Props {
+    project: {
+        slug: string;
+        data: {
+            title: string;
+            description: string;
+            image?: string;
+            tags?: string[];
+            pubDate: Date;
+            demoUrl?: string;
+            repoUrl?: string;
+        };
+    };
+}
+
+const { project } = Astro.props;
+const { title, description, image, tags, demoUrl, repoUrl } = project.data;
+---
+
+<article class="group glass-card overflow-hidden hover-lift">
+    <!-- Image -->
+    <div class="relative aspect-video overflow-hidden">
+        {
+            image ? (
+                <img
+                    src={image}
+                    alt={title}
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                />
+            ) : (
+                <div class="w-full h-full bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
+                    <span class="text-4xl opacity-50">🚀</span>
+                </div>
+            )
+        }
+
+        <!-- Overlay on hover -->
+        <div
+            class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+            <div class="absolute bottom-4 left-4 right-4 flex gap-3">
+                {
+                    demoUrl && (
+                        <a
+                            href={demoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex-1 py-2 px-4 rounded-lg bg-white/20 backdrop-blur-sm text-white text-sm font-medium text-center hover:bg-white/30 transition-colors"
+                        >
+                            Live Demo
+                        </a>
+                    )
+                }
+                {
+                    repoUrl && (
+                        <a
+                            href={repoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex-1 py-2 px-4 rounded-lg bg-white/20 backdrop-blur-sm text-white text-sm font-medium text-center hover:bg-white/30 transition-colors"
+                        >
+                            Source Code
+                        </a>
+                    )
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6">
+        <h3
+            class="text-xl font-bold mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
+        >
+            <a href={`/projects/${project.slug}`} class="hover:underline">
+                {title}
+            </a>
+        </h3>
+
+        <p class="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2">
+            {description}
+        </p>
+
+        <!-- Tags -->
+        {
+            tags && tags.length > 0 && (
+                <div class="flex flex-wrap gap-2">
+                    {tags.slice(0, 3).map((tag) => (
+                        <span class="tag text-xs">{tag}</span>
+                    ))}
+                    {tags.length > 3 && (
+                        <span class="text-xs text-slate-500 dark:text-slate-400">
+                            +{tags.length - 3} more
+                        </span>
+                    )}
+                </div>
+            )
+        }
+    </div>
+</article>

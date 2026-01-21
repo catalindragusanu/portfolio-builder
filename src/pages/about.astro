@@ -1,0 +1,184 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+
+// Configuration - Update these values or use environment variables
+const config = {
+    email: import.meta.env.PUBLIC_CONTACT_EMAIL || "hello@yourdomain.com",
+    resumeUrl: import.meta.env.PUBLIC_RESUME_URL || "/resume.pdf",
+    showResumeButton: import.meta.env.PUBLIC_SHOW_RESUME !== "false",
+};
+
+const skills = [
+  { category: 'Frontend', items: ['React', 'Next.js', 'Astro', 'TypeScript', 'TailwindCSS', 'Vue.js'] },
+  { category: 'Backend', items: ['Node.js', 'Python', 'PostgreSQL', 'MongoDB', 'REST APIs', 'GraphQL'] },
+  { category: 'DevOps', items: ['Docker', 'GitHub Actions', 'AWS', 'Netlify', 'Vercel', 'Linux'] },
+  { category: 'Tools', items: ['Git', 'VS Code', 'Figma', 'Postman', 'Jest', 'Cypress'] },
+];
+
+const experience = [
+  {
+    role: 'Senior Frontend Developer',
+    company: 'TechCorp Inc.',
+    period: '2022 - Present',
+    description: 'Leading frontend development for customer-facing products. Implemented design systems and improved performance by 40%.'
+  },
+  {
+    role: 'Full-Stack Developer',
+    company: 'StartupXYZ',
+    period: '2020 - 2022',
+    description: 'Built and maintained multiple web applications from scratch. Set up CI/CD pipelines and mentored junior developers.'
+  },
+  {
+    role: 'Junior Developer',
+    company: 'Web Agency',
+    period: '2018 - 2020',
+    description: 'Developed responsive websites for clients across various industries. Learned best practices and modern development workflows.'
+  },
+];
+---
+
+<BaseLayout title="About" description="Learn more about me, my skills, and my journey as a developer.">
+  <Navigation slot="header" />
+  
+  <!-- Hero -->
+  <section class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <!-- Image -->
+        <div class="relative flex justify-center lg:justify-start order-2 lg:order-1">
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-primary-500 to-accent-500 rounded-3xl blur-2xl opacity-30"></div>
+            <div class="relative glass-card p-4">
+              <div class="w-72 h-72 md:w-80 md:h-80 rounded-2xl bg-gradient-to-br from-primary-500 via-purple-500 to-accent-500 flex items-center justify-center">
+                <span class="text-9xl">👨‍💻</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Text -->
+        <div class="order-1 lg:order-2">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">
+            About <span class="text-gradient">Me</span>
+          </h1>
+          
+          <div class="space-y-4 text-slate-600 dark:text-slate-400">
+            <p class="text-lg">
+              Hi! I'm a passionate full-stack developer with 5+ years of experience building web applications. 
+              I love turning complex problems into simple, beautiful, and intuitive solutions.
+            </p>
+            <p>
+              My journey started with a curiosity about how websites work, and it evolved into a career 
+              focused on creating exceptional digital experiences. I'm particularly interested in 
+              performance optimization, developer experience, and building scalable systems.
+            </p>
+            <p>
+              When I'm not coding, you'll find me exploring new technologies, contributing to open source, 
+              or writing about what I've learned.
+            </p>
+          </div>
+          
+          <div class="flex flex-wrap gap-4 mt-8">
+            <a href={`mailto:${config.email}`} class="btn-primary">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Contact Me
+            </a>
+            {config.showResumeButton && (
+              <a href={config.resumeUrl} class="btn-secondary" target="_blank">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download Resume
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Skills -->
+  <section class="py-20 bg-slate-100/50 dark:bg-slate-800/20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="section-title">My <span class="text-gradient">Skills</span></h2>
+        <p class="section-subtitle mx-auto">Technologies and tools I work with daily.</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {skills.map((skillGroup) => (
+          <div class="glass-card p-6">
+            <h3 class="font-bold text-lg mb-4 text-primary-600 dark:text-primary-400">
+              {skillGroup.category}
+            </h3>
+            <ul class="space-y-2">
+              {skillGroup.items.map((skill) => (
+                <li class="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                  <svg class="w-4 h-4 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  
+  <!-- Experience -->
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="section-title">Work <span class="text-gradient">Experience</span></h2>
+        <p class="section-subtitle mx-auto">My professional journey so far.</p>
+      </div>
+      
+      <div class="relative">
+        <!-- Timeline line -->
+        <div class="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-primary-500 to-accent-500 hidden md:block"></div>
+        
+        <div class="space-y-8">
+          {experience.map((job, index) => (
+            <div class="relative flex gap-8">
+              <!-- Timeline dot -->
+              <div class="hidden md:flex flex-shrink-0 w-16 items-start justify-center">
+                <div class="w-4 h-4 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 shadow-lg shadow-primary-500/30"></div>
+              </div>
+              
+              <!-- Content -->
+              <div class="flex-1 glass-card p-6 hover-lift">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                  <h3 class="font-bold text-lg">{job.role}</h3>
+                  <span class="text-sm text-primary-600 dark:text-primary-400 font-medium">{job.period}</span>
+                </div>
+                <div class="text-slate-600 dark:text-slate-400 mb-3">{job.company}</div>
+                <p class="text-slate-600 dark:text-slate-400 text-sm">{job.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Contact CTA -->
+  <section class="py-20 bg-slate-100/50 dark:bg-slate-800/20">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="section-title mb-4">Let's <span class="text-gradient">Connect</span></h2>
+      <p class="section-subtitle mx-auto mb-8">
+        I'm always interested in hearing about new opportunities and interesting projects.
+      </p>
+      <a href={`mailto:${config.email}`} class="btn-primary">
+        Start a Conversation
+      </a>
+    </div>
+  </section>
+  
+  <Footer slot="footer" />
+</BaseLayout>

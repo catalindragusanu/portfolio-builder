@@ -1,0 +1,140 @@
+# Portfolio Builder - Build & Deploy
+name: Build & Deploy Portfolio
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      # -------------------------------------------------
+      # 1. Checkout Repository
+      # -------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -------------------------------------------------
+      # 2. Setup Node.js with caching
+      # -------------------------------------------------
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      # -------------------------------------------------
+      # 3. Install dependencies
+      # -------------------------------------------------
+      - name: Install dependencies
+        run: npm ci
+
+      # -------------------------------------------------
+      # 4. Lint markdown files
+      # -------------------------------------------------
+      - name: Lint markdown
+        run: npm run lint:md
+        continue-on-error: true
+
+      # -------------------------------------------------
+      # 5. Build the site
+      # -------------------------------------------------
+      - name: Build site
+        run: npm run build
+        env:
+          SITE_URL: ${{ vars.SITE_URL || 'https://myportfolio.com' }}
+          PUBLIC_AUTHOR_NAME: ${{ vars.PUBLIC_AUTHOR_NAME || '' }}
+          PUBLIC_AUTHOR_ROLE: ${{ vars.PUBLIC_AUTHOR_ROLE || '' }}
+          PUBLIC_TAGLINE: ${{ vars.PUBLIC_TAGLINE || '' }}
+          PUBLIC_YEARS_EXPERIENCE: ${{ vars.PUBLIC_YEARS_EXPERIENCE || '' }}
+          PUBLIC_CONTACT_EMAIL: ${{ vars.PUBLIC_CONTACT_EMAIL || '' }}
+          PUBLIC_GITHUB_USERNAME: ${{ vars.PUBLIC_GITHUB_USERNAME || '' }}
+          PUBLIC_LINKEDIN_USERNAME: ${{ vars.PUBLIC_LINKEDIN_USERNAME || '' }}
+          PUBLIC_TWITTER_USERNAME: ${{ vars.PUBLIC_TWITTER_USERNAME || '' }}
+          PUBLIC_GA_ID: ${{ vars.PUBLIC_GA_ID || '' }}
+
+      # -------------------------------------------------
+      # 6. Upload build artifact
+      # -------------------------------------------------
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-build-${{ github.sha }}
+          path: dist/
+          retention-days: 7
+
+      # -------------------------------------------------
+      # 7. Deploy to Netlify (production on main)
+      # -------------------------------------------------
+      - name: Deploy to Netlify
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: ./dist
+          production-branch: main
+          production-deploy: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions - ${{ github.sha }}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      # -------------------------------------------------
+      # 8. Deploy Preview for PRs
+      # -------------------------------------------------
+      - name: Deploy Preview to Netlify
+        if: github.event_name == 'pull_request'
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: ./dist
+          production-deploy: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Preview deploy for PR #${{ github.event.pull_request.number }}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      # -------------------------------------------------
+      # 9. Post-deploy verification
+      # -------------------------------------------------
+      - name: Post-deploy verification
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          echo "Build and deploy completed successfully!"
+          echo "Commit: ${{ github.sha }}"
+          echo "Artifact: site-build-${{ github.sha }}"
+
+      # -------------------------------------------------
+      # 10. Notify on Slack (optional)
+      # -------------------------------------------------
+      - name: Notify Slack
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && always()
+        continue-on-error: true
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: |
+            {
+              "text": "${{ job.status == 'success' && '✅' || '❌' }} Portfolio deploy ${{ job.status }} - <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ job.status == 'success' && '✅' || '❌' }} *Portfolio deploy ${{ job.status }}*\n\nCommit: `${{ github.sha }}`\nBranch: `${{ github.ref_name }}`"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

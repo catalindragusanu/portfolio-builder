@@ -1,0 +1,99 @@
+---
+interface Props {
+    skills: {
+        id: string;
+        data: {
+            name: string;
+            category: string;
+            level: string;
+            icon?: string;
+            yearsOfExperience?: number;
+            order: number;
+        };
+    }[];
+}
+
+const { skills } = Astro.props;
+
+// Group skills by category
+const categories = {
+    frontend: { label: "Frontend", icon: "🎨" },
+    backend: { label: "Backend", icon: "⚙️" },
+    devops: { label: "DevOps", icon: "🚀" },
+    tools: { label: "Tools", icon: "🛠️" },
+    languages: { label: "Languages", icon: "📝" },
+    other: { label: "Other", icon: "💡" },
+};
+
+const groupedSkills = skills.reduce(
+    (acc, skill) => {
+        const cat = skill.data.category;
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(skill);
+        return acc;
+    },
+    {} as Record<string, typeof skills>,
+);
+
+const levelColors = {
+    beginner: "bg-blue-500",
+    intermediate: "bg-yellow-500",
+    advanced: "bg-orange-500",
+    expert: "bg-green-500",
+};
+
+const levelWidths = {
+    beginner: "w-1/4",
+    intermediate: "w-2/4",
+    advanced: "w-3/4",
+    expert: "w-full",
+};
+---
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {
+        Object.entries(groupedSkills).map(([category, categorySkills]) => (
+            <div class="glass-card p-6">
+                <h3 class="flex items-center gap-2 font-bold text-lg mb-4 text-primary-600 dark:text-primary-400">
+                    <span>
+                        {categories[category as keyof typeof categories]
+                            ?.icon || "💡"}
+                    </span>
+                    {categories[category as keyof typeof categories]?.label ||
+                        category}
+                </h3>
+
+                <ul class="space-y-4">
+                    {categorySkills
+                        .sort(
+                            (a, b) => (a.data.order || 0) - (b.data.order || 0),
+                        )
+                        .map((skill) => (
+                            <li>
+                                <div class="flex items-center justify-between mb-1">
+                                    <div class="flex items-center gap-2">
+                                        {skill.data.icon && (
+                                            <span>{skill.data.icon}</span>
+                                        )}
+                                        <span class="font-medium text-slate-700 dark:text-slate-300">
+                                            {skill.data.name}
+                                        </span>
+                                    </div>
+                                    {skill.data.yearsOfExperience && (
+                                        <span class="text-xs text-slate-500 dark:text-slate-400">
+                                            {skill.data.yearsOfExperience}+ yrs
+                                        </span>
+                                    )}
+                                </div>
+                                <div class="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                    <div
+                                        class={`h-full rounded-full ${levelColors[skill.data.level as keyof typeof levelColors] || "bg-primary-500"} ${levelWidths[skill.data.level as keyof typeof levelWidths] || "w-2/4"}`}
+                                    />
+                                </div>
+                            </li>
+                        ))}
+                </ul>
+            </div>
+        ))
+    }
+</div>

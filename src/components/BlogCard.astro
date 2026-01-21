@@ -1,0 +1,108 @@
+---
+interface Props {
+    post: {
+        slug: string;
+        data: {
+            title: string;
+            description: string;
+            pubDate: Date;
+            tags?: string[];
+            image?: string;
+            readingTime?: string;
+        };
+    };
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, tags, image, readingTime } = post.data;
+
+const formattedDate = new Date(pubDate).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+});
+---
+
+<article class="group glass-card overflow-hidden hover-lift">
+    <a href={`/blog/${post.slug}`} class="block">
+        <div class="flex flex-col sm:flex-row">
+            <!-- Image (optional) -->
+            {
+                image && (
+                    <div class="sm:w-48 flex-shrink-0">
+                        <img
+                            src={image}
+                            alt={title}
+                            class="w-full h-48 sm:h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            loading="lazy"
+                        />
+                    </div>
+                )
+            }
+
+            <!-- Content -->
+            <div class="flex-1 p-6">
+                <!-- Meta -->
+                <div
+                    class="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400 mb-3"
+                >
+                    <time datetime={pubDate.toISOString()}>
+                        {formattedDate}
+                    </time>
+                    {
+                        readingTime && (
+                            <>
+                                <span>•</span>
+                                <span>{readingTime}</span>
+                            </>
+                        )
+                    }
+                </div>
+
+                <!-- Title -->
+                <h3
+                    class="text-xl font-bold mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
+                >
+                    {title}
+                </h3>
+
+                <!-- Description -->
+                <p
+                    class="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2"
+                >
+                    {description}
+                </p>
+
+                <!-- Tags -->
+                {
+                    tags && tags.length > 0 && (
+                        <div class="flex flex-wrap gap-2">
+                            {tags.slice(0, 3).map((tag) => (
+                                <span class="tag text-xs">{tag}</span>
+                            ))}
+                        </div>
+                    )
+                }
+
+                <!-- Read more -->
+                <div
+                    class="mt-4 flex items-center text-primary-600 dark:text-primary-400 font-medium text-sm"
+                >
+                    Read article
+                    <svg
+                        class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </a>
+</article>

@@ -1,0 +1,10 @@
+{
+    "name": "Michael Rodriguez",
+    "role": "CTO",
+    "company": "StartupXYZ",
+    "companyUrl": "https://startupxyz.example.com",
+    "avatar": "/images/testimonials/michael.jpg",
+    "quote": "Instrumental in building our core product from the ground up. Their full-stack expertise and attention to detail made all the difference in our successful launch.",
+    "featured": true,
+    "order": 2
+}

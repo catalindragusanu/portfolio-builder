@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: 250 250 250;
+    --color-bg-secondary: 255 255 255;
+    --color-text: 15 23 42;
+    --color-text-muted: 100 116 139;
+    --color-border: 226 232 240;
+    --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+    --gradient-secondary: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+  }
+
+  .dark {
+    --color-bg: 15 23 42;
+    --color-bg-secondary: 30 41 59;
+    --color-text: 248 250 252;
+    --color-text-muted: 148 163 184;
+    --color-border: 51 65 85;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50;
+    @apply font-sans antialiased;
+    @apply transition-colors duration-300;
+  }
+
+  ::selection {
+    @apply bg-primary-500/30 text-primary-900 dark:text-primary-100;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/70 dark:bg-slate-800/70;
+    @apply backdrop-blur-xl;
+    @apply border border-slate-200/50 dark:border-slate-700/50;
+    @apply rounded-2xl;
+    @apply shadow-xl shadow-slate-900/5 dark:shadow-slate-900/30;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center;
+    @apply px-6 py-3 rounded-xl;
+    @apply bg-gradient-to-r from-primary-500 via-primary-600 to-accent-500;
+    @apply text-white font-semibold;
+    @apply transition-all duration-300;
+    @apply hover:scale-105 hover:shadow-lg hover:shadow-primary-500/25;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    @apply active:scale-100;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center;
+    @apply px-6 py-3 rounded-xl;
+    @apply bg-slate-100 dark:bg-slate-800;
+    @apply text-slate-700 dark:text-slate-200 font-semibold;
+    @apply border border-slate-200 dark:border-slate-700;
+    @apply transition-all duration-300;
+    @apply hover:bg-slate-200 dark:hover:bg-slate-700;
+    @apply hover:scale-105;
+    @apply focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+
+  .nav-link {
+    @apply relative px-4 py-2 text-slate-600 dark:text-slate-300;
+    @apply font-medium transition-colors duration-200;
+    @apply hover:text-primary-600 dark:hover:text-primary-400;
+  }
+
+  .nav-link::after {
+    @apply content-[''] absolute bottom-0 left-1/2 -translate-x-1/2;
+    @apply w-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500;
+    @apply rounded-full transition-all duration-300;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    @apply w-full;
+  }
+
+  .nav-link.active {
+    @apply text-primary-600 dark:text-primary-400;
+  }
+
+  .tag {
+    @apply inline-flex items-center;
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+    @apply bg-primary-100 dark:bg-primary-900/30;
+    @apply text-primary-700 dark:text-primary-300;
+    @apply border border-primary-200 dark:border-primary-800;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold;
+    @apply mb-4;
+  }
+
+  .section-subtitle {
+    @apply text-lg text-slate-600 dark:text-slate-400;
+    @apply max-w-2xl;
+  }
+}
+
+@layer utilities {
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+  .animate-delay-500 { animation-delay: 500ms; }
+
+  .hover-lift {
+    @apply transition-transform duration-300;
+    @apply hover:-translate-y-2;
+  }
+
+  .prose-custom {
+    @apply prose prose-slate dark:prose-invert max-w-none;
+    @apply prose-headings:font-bold prose-headings:tracking-tight;
+    @apply prose-a:text-primary-600 dark:prose-a:text-primary-400;
+    @apply prose-a:no-underline hover:prose-a:underline;
+    @apply prose-code:text-primary-600 dark:prose-code:text-primary-400;
+    @apply prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-700;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100 dark:bg-slate-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-slate-600 rounded-full;
+  @apply hover:bg-slate-400 dark:hover:bg-slate-500;
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  @apply outline-none ring-2 ring-primary-500 ring-offset-2;
+  @apply dark:ring-offset-slate-900;
+}

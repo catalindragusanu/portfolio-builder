@@ -1,0 +1,183 @@
+---
+import { getCollection } from "astro:content";
+
+// Fetch all searchable content
+const projects = await getCollection("projects");
+const posts = await getCollection("posts");
+
+// Build search index
+const searchData = [
+    ...projects.map((p) => ({
+        type: "project",
+        title: p.data.title,
+        description: p.data.description,
+        tags: p.data.tags,
+        url: `/projects/${p.id}`,
+    })),
+    ...posts
+        .filter((p) => !p.data.draft)
+        .map((p) => ({
+            type: "post",
+            title: p.data.title,
+            description: p.data.description,
+            tags: p.data.tags,
+            url: `/blog/${p.id}`,
+        })),
+];
+---
+
+<!-- Search Modal -->
+<div id="search-modal" class="fixed inset-0 z-[100] hidden">
+    <!-- Backdrop -->
+    <div
+        id="search-backdrop"
+        class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+    >
+    </div>
+
+    <!-- Modal Content -->
+    <div class="relative max-w-2xl mx-auto mt-20 px-4">
+        <div class="glass-card p-6 shadow-2xl">
+            <!-- Search Input -->
+            <div class="relative">
+                <svg
+                    class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input
+                    id="search-input"
+                    type="text"
+                    placeholder="Search projects, blog posts..."
+                    class="w-full pl-12 pr-4 py-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent text-lg"
+                    autocomplete="off"
+                />
+                <kbd
+                    class="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-mono bg-slate-100 dark:bg-slate-700 rounded"
+                    >ESC</kbd
+                >
+            </div>
+
+            <!-- Results -->
+            <div id="search-results" class="mt-4 max-h-80 overflow-y-auto">
+                <p class="text-center text-slate-500 dark:text-slate-400 py-8">
+                    Start typing to search...
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script define:vars={{ searchData }}>
+    const modal = document.getElementById("search-modal");
+    const trigger = document.getElementById("search-trigger");
+    const backdrop = document.getElementById("search-backdrop");
+    const input = document.getElementById("search-input");
+    const results = document.getElementById("search-results");
+
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Open modal
+    function openSearch() {
+        modal?.classList.remove("hidden");
+        input?.focus();
+        document.body.style.overflow = "hidden";
+    }
+
+    // Close modal
+    function closeSearch() {
+        modal?.classList.add("hidden");
+        if (input) input.value = "";
+        if (results)
+            results.innerHTML =
+                '<p class="text-center text-slate-500 dark:text-slate-400 py-8">Start typing to search...</p>';
+        document.body.style.overflow = "";
+    }
+
+    // Search function
+    function search(query) {
+        if (!query.trim()) {
+            if (results)
+                results.innerHTML =
+                    '<p class="text-center text-slate-500 dark:text-slate-400 py-8">Start typing to search...</p>';
+            return;
+        }
+
+        const q = query.toLowerCase();
+        const matches = searchData.filter(
+            (item) =>
+                item.title.toLowerCase().includes(q) ||
+                item.description.toLowerCase().includes(q) ||
+                item.tags.some((tag) => tag.toLowerCase().includes(q)),
+        );
+
+        if (matches.length === 0) {
+            if (results)
+                results.innerHTML =
+                    '<p class="text-center text-slate-500 dark:text-slate-400 py-8">No results found.</p>';
+            return;
+        }
+
+        const icons = {
+            project: "📁",
+            post: "📝",
+        };
+
+        if (results) {
+            results.innerHTML = matches
+                .map(
+                    (item) => `
+        <a href="${escapeHtml(item.url)}" class="block p-4 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group">
+          <div class="flex items-start gap-3">
+            <span class="text-2xl">${icons[item.type]}</span>
+            <div class="flex-1 min-w-0">
+              <div class="font-medium group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">${escapeHtml(item.title)}</div>
+              <p class="text-sm text-slate-600 dark:text-slate-400 truncate">${escapeHtml(item.description)}</p>
+              <div class="flex gap-2 mt-2">
+                ${item.tags
+                    .slice(0, 3)
+                    .map(
+                        (tag) =>
+                            `<span class="text-xs px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400">${escapeHtml(tag)}</span>`,
+                    )
+                    .join("")}
+              </div>
+            </div>
+          </div>
+        </a>
+      `,
+                )
+                .join("");
+        }
+    }
+
+    // Event listeners
+    trigger?.addEventListener("click", openSearch);
+    backdrop?.addEventListener("click", closeSearch);
+    input?.addEventListener("input", (e) => search(e.target.value));
+
+    // Keyboard shortcuts
+    document.addEventListener("keydown", (e) => {
+        // Cmd/Ctrl + K to open
+        if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+            e.preventDefault();
+            openSearch();
+        }
+        // ESC to close
+        if (e.key === "Escape" && !modal?.classList.contains("hidden")) {
+            closeSearch();
+        }
+    });
+</script>

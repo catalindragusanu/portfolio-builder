@@ -1,0 +1,116 @@
+---
+interface Props {
+    experience: {
+        id: string;
+        data: {
+            role: string;
+            company: string;
+            companyUrl?: string;
+            location?: string;
+            startDate: Date;
+            endDate?: Date;
+            current?: boolean;
+            technologies: string[];
+        };
+    };
+}
+
+const { experience } = Astro.props;
+const {
+    role,
+    company,
+    companyUrl,
+    location,
+    startDate,
+    endDate,
+    current,
+    technologies,
+} = experience.data;
+
+const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+    });
+};
+
+const duration = current
+    ? `${formatDate(startDate)} - Present`
+    : `${formatDate(startDate)} - ${formatDate(endDate!)}`;
+---
+
+<div class="relative flex gap-6 md:gap-8">
+    <!-- Timeline dot and line -->
+    <div class="hidden md:flex flex-col items-center">
+        <div
+            class="w-4 h-4 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 shadow-lg shadow-primary-500/30 flex-shrink-0"
+        >
+        </div>
+        <div
+            class="w-px flex-1 bg-gradient-to-b from-primary-500/50 to-transparent"
+        >
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 glass-card p-6 mb-6 hover-lift group">
+        <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
+            <div>
+                <h3
+                    class="text-xl font-bold group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
+                >
+                    {role}
+                </h3>
+                {
+                    companyUrl ? (
+                        <a
+                            href={companyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-primary-600 dark:text-primary-400 hover:underline font-medium"
+                        >
+                            {company}
+                        </a>
+                    ) : (
+                        <span class="text-slate-600 dark:text-slate-400 font-medium">
+                            {company}
+                        </span>
+                    )
+                }
+                {
+                    location && (
+                        <span class="text-slate-500 dark:text-slate-500 text-sm ml-2">
+                            • {location}
+                        </span>
+                    )
+                }
+            </div>
+
+            <div class="flex items-center gap-2">
+                {
+                    current && (
+                        <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                            Current
+                        </span>
+                    )
+                }
+                <span class="text-sm text-slate-500 dark:text-slate-400">
+                    {duration}
+                </span>
+            </div>
+        </div>
+
+        <!-- Technologies -->
+        {
+            technologies && technologies.length > 0 && (
+                <div class="flex flex-wrap gap-2 mt-4">
+                    {technologies.map((tech) => (
+                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                            {tech}
+                        </span>
+                    ))}
+                </div>
+            )
+        }
+    </div>
+</div>
