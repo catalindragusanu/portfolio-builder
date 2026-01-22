@@ -1,8 +1,8 @@
 {
     "name": "TypeScript",
     "category": "languages",
-    "level": "expert",
-    "icon": "📘",
-    "yearsOfExperience": 4,
+    "level": "intermediate",
+    "icon": "typescript",
+    "yearsOfExperience": 1,
     "order": 2
 }

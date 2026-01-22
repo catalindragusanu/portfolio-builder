@@ -1,8 +1,8 @@
 {
     "name": "Docker",
     "category": "devops",
-    "level": "advanced",
-    "icon": "🐳",
-    "yearsOfExperience": 3,
+    "level": "intermediate",
+    "icon": "docker",
+    "yearsOfExperience": 1,
     "order": 4
 }

@@ -1,8 +1,8 @@
 {
     "name": "Git",
     "category": "tools",
-    "level": "expert",
-    "icon": "📦",
-    "yearsOfExperience": 6,
+    "level": "intermediate",
+    "icon": "git",
+    "yearsOfExperience": 2,
     "order": 6
 }

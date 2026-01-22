@@ -1,36 +1,38 @@
 ---
 title: "Portfolio Builder"
-description: "A modern portfolio site with automated CI/CD deployment using Astro, GitHub Actions, and Netlify."
-pubDate: 2025-10-15
-tags: ["Astro", "CI/CD", "Netlify", "TypeScript", "TailwindCSS"]
-# Update these URLs with your actual project links
-# demoUrl: "https://your-portfolio.com"
-# repoUrl: "https://github.com/yourusername/portfolio-builder"
+description: "A static portfolio website with SEO optimization and automated deployment using Astro, TailwindCSS, and Netlify."
+pubDate: 2025-01-01
+tags: ["Astro", "TailwindCSS", "Netlify", "GitHub Actions", "SEO"]
+demoUrl: "https://catalindragusanu.netlify.app"
+repoUrl: "https://github.com/catalindragusanu/Portfolio-Builder"
 featured: true
 ---
 
 ## Overview
 
-This portfolio builder demonstrates a complete full-stack workflow from source control to production deployment. Built with modern technologies and best practices in mind.
+This portfolio builder demonstrates a complete workflow from source control to production deployment. Built with modern technologies and best practices, it showcases my projects and skills while being fully automated.
 
 ## Key Features
 
-- **Static Site Generation** - Lightning-fast page loads with pre-rendered HTML
-- **Markdown Content** - Write projects and blog posts in markdown
-- **Automated Deployment** - Push to main and watch your site update automatically
+- **Static Site Generation** - Lightning-fast page loads with pre-rendered HTML using Astro
+- **Markdown Content** - Write projects and blog posts in markdown for easy content management
+- **Automated Deployment** - Push to main and watch your site update automatically via GitHub Actions
 - **Dark Mode** - Beautiful dark theme that respects system preferences
-- **SEO Optimized** - Meta tags, Open Graph, and sitemap generation
+- **SEO Optimized** - Meta tags, Open Graph, and sitemap generation for better discoverability
+- **Responsive Design** - Mobile-first approach with TailwindCSS
 
 ## Tech Stack
 
-- **Framework**: Astro 4.x
-- **Styling**: TailwindCSS with custom design system
+- **Framework**: Astro
+- **Styling**: TailwindCSS
 - **CI/CD**: GitHub Actions
 - **Hosting**: Netlify with CDN
+- **Content**: Markdown
 
 ## Lessons Learned
 
-Building this project taught me the importance of:
-1. Automating repetitive tasks
-2. Using type-safe content with Zod schemas
-3. Designing for accessibility from the start
+Building this project taught me:
+1. Working with static site generators and content collections
+2. Implementing automated deployment pipelines
+3. SEO best practices for web applications
+4. Creating responsive, accessible designs
