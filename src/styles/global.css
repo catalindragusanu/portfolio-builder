@@ -6,21 +6,35 @@
 
 @layer base {
   :root {
-    --color-bg: 250 250 250;
+    /* Apple-inspired color tokens */
+    --apple-silver: #e6e6e6;
+    --apple-gray: #424245;
+    --apple-white: #f5f5f7;
+    --apple-black: #1d1d1f;
+    --apple-darkgray: #86868b;
+    --apple-lightgray: #d2d2d7;
+    --true-blue: #0066cc;
+    --orange: #f56300;
+
+    /* Semantic tokens */
+    --color-bg: 245 245 247;
     --color-bg-secondary: 255 255 255;
-    --color-text: 15 23 42;
-    --color-text-muted: 100 116 139;
-    --color-border: 226 232 240;
-    --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
-    --gradient-secondary: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+    --color-text: 29 29 31;
+    --color-text-muted: 134 134 139;
+    --color-border: 210 210 215;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #0066cc 0%, #339fff 100%);
+    --gradient-accent: linear-gradient(135deg, #0066cc 0%, #f56300 100%);
+    --gradient-orange: linear-gradient(135deg, #f56300 0%, #ff9633 100%);
   }
 
   .dark {
-    --color-bg: 15 23 42;
-    --color-bg-secondary: 30 41 59;
-    --color-text: 248 250 252;
-    --color-text-muted: 148 163 184;
-    --color-border: 51 65 85;
+    --color-bg: 29 29 31;
+    --color-bg-secondary: 44 44 46;
+    --color-text: 245 245 247;
+    --color-text-muted: 134 134 139;
+    --color-border: 66 66 69;
   }
 
   html {
@@ -28,90 +42,158 @@
   }
 
   body {
-    @apply bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50;
+    @apply bg-apple-white dark:bg-apple-black text-apple-black dark:text-apple-white;
     @apply font-sans antialiased;
     @apply transition-colors duration-300;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   ::selection {
-    @apply bg-primary-500/30 text-primary-900 dark:text-primary-100;
+    @apply bg-primary-500/20 text-primary-700 dark:text-primary-300;
+  }
+
+  /* Apple-style smooth typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+    font-weight: 600;
   }
 }
 
 @layer components {
+  /* Apple-style glass card */
   .glass-card {
-    @apply bg-white/70 dark:bg-slate-800/70;
-    @apply backdrop-blur-xl;
-    @apply border border-slate-200/50 dark:border-slate-700/50;
+    @apply bg-white/80 dark:bg-apple-gray/80;
+    @apply backdrop-blur-2xl;
+    @apply border border-apple-lightgray/50 dark:border-white/10;
     @apply rounded-2xl;
-    @apply shadow-xl shadow-slate-900/5 dark:shadow-slate-900/30;
+    @apply shadow-apple;
   }
 
+  /* Primary button - True Blue */
   .btn-primary {
     @apply inline-flex items-center justify-center;
-    @apply px-6 py-3 rounded-xl;
-    @apply bg-gradient-to-r from-primary-500 via-primary-600 to-accent-500;
-    @apply text-white font-semibold;
-    @apply transition-all duration-300;
-    @apply hover:scale-105 hover:shadow-lg hover:shadow-primary-500/25;
+    @apply px-6 py-3 rounded-full;
+    @apply bg-primary-500 hover:bg-primary-600;
+    @apply text-white font-medium;
+    @apply transition-all duration-200;
+    @apply hover:scale-[1.02] active:scale-[0.98];
     @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
-    @apply active:scale-100;
+    @apply shadow-apple hover:shadow-apple-lg;
   }
 
+  /* Secondary button - Outline style */
   .btn-secondary {
     @apply inline-flex items-center justify-center;
-    @apply px-6 py-3 rounded-xl;
-    @apply bg-slate-100 dark:bg-slate-800;
-    @apply text-slate-700 dark:text-slate-200 font-semibold;
-    @apply border border-slate-200 dark:border-slate-700;
-    @apply transition-all duration-300;
-    @apply hover:bg-slate-200 dark:hover:bg-slate-700;
-    @apply hover:scale-105;
-    @apply focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2;
+    @apply px-6 py-3 rounded-full;
+    @apply bg-transparent;
+    @apply text-primary-500 font-medium;
+    @apply border border-primary-500/30 hover:border-primary-500;
+    @apply transition-all duration-200;
+    @apply hover:bg-primary-50 dark:hover:bg-primary-950;
+    @apply hover:scale-[1.02] active:scale-[0.98];
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
   }
 
+  /* Apple-style link */
+  .link-apple {
+    @apply text-primary-500 hover:text-primary-600;
+    @apply transition-colors duration-200;
+    @apply hover:underline;
+  }
+
+  /* Text gradient - Blue to Orange */
   .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-accent);
+  }
+
+  /* Text gradient - Blue only */
+  .text-gradient-blue {
     @apply bg-clip-text text-transparent;
     background-image: var(--gradient-primary);
   }
 
+  /* Navigation styles - Apple Gray background */
   .nav-link {
-    @apply relative px-4 py-2 text-slate-600 dark:text-slate-300;
-    @apply font-medium transition-colors duration-200;
-    @apply hover:text-primary-600 dark:hover:text-primary-400;
+    @apply relative px-4 py-2;
+    @apply text-apple-silver/90 hover:text-white;
+    @apply font-medium text-sm;
+    @apply transition-colors duration-200;
   }
 
   .nav-link::after {
     @apply content-[''] absolute bottom-0 left-1/2 -translate-x-1/2;
-    @apply w-0 h-0.5 bg-gradient-to-r from-primary-500 to-accent-500;
+    @apply w-0 h-0.5 bg-primary-500;
     @apply rounded-full transition-all duration-300;
   }
 
   .nav-link:hover::after,
   .nav-link.active::after {
-    @apply w-full;
+    @apply w-4/5;
   }
 
   .nav-link.active {
-    @apply text-primary-600 dark:text-primary-400;
+    @apply text-white;
   }
 
+  /* Tag styles */
   .tag {
     @apply inline-flex items-center;
     @apply px-3 py-1 rounded-full text-sm font-medium;
-    @apply bg-primary-100 dark:bg-primary-900/30;
-    @apply text-primary-700 dark:text-primary-300;
-    @apply border border-primary-200 dark:border-primary-800;
+    @apply bg-apple-white dark:bg-apple-gray;
+    @apply text-apple-darkgray dark:text-apple-silver;
+    @apply border border-apple-lightgray dark:border-white/10;
   }
 
+  /* New/Featured tag - Orange accent */
+  .tag-new {
+    @apply inline-flex items-center;
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+    @apply text-accent-500 border border-accent-500/30;
+    @apply bg-accent-50 dark:bg-accent-950;
+  }
+
+  /* Section titles */
   .section-title {
-    @apply text-3xl md:text-4xl font-bold;
+    @apply text-3xl md:text-4xl lg:text-5xl font-semibold;
+    @apply text-apple-black dark:text-white;
     @apply mb-4;
   }
 
   .section-subtitle {
-    @apply text-lg text-slate-600 dark:text-slate-400;
+    @apply text-lg md:text-xl;
+    @apply text-apple-darkgray dark:text-apple-darkgray;
     @apply max-w-2xl;
+  }
+
+  /* Apple-style card */
+  .apple-card {
+    @apply bg-white dark:bg-apple-gray;
+    @apply rounded-2xl;
+    @apply shadow-apple hover:shadow-apple-lg;
+    @apply transition-all duration-300;
+    @apply border border-apple-lightgray/30 dark:border-white/5;
+  }
+
+  /* Apple-style input */
+  .input-apple {
+    @apply w-full px-4 py-3 rounded-xl;
+    @apply bg-white dark:bg-apple-gray;
+    @apply border border-apple-lightgray dark:border-white/10;
+    @apply text-apple-black dark:text-white;
+    @apply placeholder:text-apple-darkgray;
+    @apply focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+    @apply transition-all duration-200;
+  }
+
+  /* Hero badge */
+  .hero-badge {
+    @apply inline-flex items-center gap-2;
+    @apply px-4 py-2 rounded-full;
+    @apply bg-primary-50 dark:bg-primary-950;
+    @apply text-primary-600 dark:text-primary-400;
+    @apply text-sm font-medium;
+    @apply border border-primary-200 dark:border-primary-800;
   }
 }
 
@@ -123,37 +205,52 @@
   .animate-delay-500 { animation-delay: 500ms; }
 
   .hover-lift {
-    @apply transition-transform duration-300;
-    @apply hover:-translate-y-2;
+    @apply transition-all duration-300;
+    @apply hover:-translate-y-1 hover:shadow-apple-lg;
+  }
+
+  /* Apple-style section backgrounds */
+  .bg-section-light {
+    @apply bg-apple-white;
+  }
+
+  .bg-section-alt {
+    @apply bg-white dark:bg-apple-gray/50;
   }
 
   .prose-custom {
     @apply prose prose-slate dark:prose-invert max-w-none;
-    @apply prose-headings:font-bold prose-headings:tracking-tight;
-    @apply prose-a:text-primary-600 dark:prose-a:text-primary-400;
+    @apply prose-headings:font-semibold prose-headings:tracking-tight;
+    @apply prose-headings:text-apple-black dark:prose-headings:text-white;
+    @apply prose-a:text-primary-500 dark:prose-a:text-primary-400;
     @apply prose-a:no-underline hover:prose-a:underline;
-    @apply prose-code:text-primary-600 dark:prose-code:text-primary-400;
-    @apply prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-700;
+    @apply prose-code:text-accent-600 dark:prose-code:text-accent-400;
+    @apply prose-pre:bg-apple-gray prose-pre:border prose-pre:border-white/10;
   }
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling - Apple minimal */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-100 dark:bg-slate-800;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 dark:bg-slate-600 rounded-full;
-  @apply hover:bg-slate-400 dark:hover:bg-slate-500;
+  @apply bg-apple-lightgray dark:bg-apple-darkgray rounded-full;
+  @apply hover:bg-apple-darkgray dark:hover:bg-apple-silver;
 }
 
 /* Focus visible for accessibility */
 :focus-visible {
   @apply outline-none ring-2 ring-primary-500 ring-offset-2;
-  @apply dark:ring-offset-slate-900;
+  @apply dark:ring-offset-apple-black;
+}
+
+/* Apple-style smooth transitions */
+* {
+  @apply transition-colors duration-200;
 }

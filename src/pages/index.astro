@@ -40,16 +40,16 @@ const recentPosts = posts
 >
     <Navigation slot="header" />
 
-    <!-- Hero Section -->
-    <section class="relative min-h-[90vh] flex items-center overflow-hidden">
-        <!-- Background Effects -->
+    <!-- Hero Section - Apple-inspired clean design -->
+    <section class="relative min-h-[90vh] flex items-center overflow-hidden bg-apple-white dark:bg-apple-black">
+        <!-- Subtle Background Effects -->
         <div class="absolute inset-0 -z-10">
             <div
-                class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl animate-float"
+                class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary-500/10 rounded-full blur-[100px] animate-float"
             >
             </div>
             <div
-                class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-500/20 rounded-full blur-3xl animate-float animate-delay-300"
+                class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent-500/10 rounded-full blur-[100px] animate-float animate-delay-300"
             >
             </div>
         </div>
@@ -58,9 +58,7 @@ const recentPosts = posts
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <!-- Text Content -->
                 <div class="animate-fade-in">
-                    <div
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm font-medium mb-6"
-                    >
+                    <div class="hero-badge mb-6">
                         <span class="relative flex h-2 w-2">
                             <span
                                 class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"
@@ -73,25 +71,26 @@ const recentPosts = posts
                     </div>
 
                     <h1
-                        class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+                        class="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6 text-apple-black dark:text-white"
                     >
                         Hi, I'm <span class="text-gradient">{config.name}</span>
                         <br />
-                        <span class="text-slate-600 dark:text-slate-400"
+                        <span class="text-apple-darkgray"
                             >{config.role}</span
                         >
                     </h1>
 
                     <p
-                        class="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-xl"
+                        class="text-lg text-apple-darkgray mb-8 max-w-xl"
                     >
                         {config.tagline}
                     </p>
 
                     <div class="flex flex-wrap gap-4">
                         <a href="/projects" class="btn-primary">
+                            View Projects
                             <svg
-                                class="w-5 h-5 mr-2"
+                                class="w-4 h-4 ml-2"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -100,12 +99,24 @@ const recentPosts = posts
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="2"
-                                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                                ></path>
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                             </svg>
-                            View Projects
                         </a>
-                        <a href="/about" class="btn-secondary"> Learn More </a>
+                        <a href="/about" class="btn-secondary">
+                            Learn More
+                            <svg
+                                class="w-4 h-4 ml-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
                     </div>
                 </div>
 
@@ -116,12 +127,12 @@ const recentPosts = posts
                     <div class="relative">
                         <!-- Glow Effect -->
                         <div
-                            class="absolute inset-0 bg-gradient-to-r from-primary-500 to-accent-500 rounded-3xl blur-2xl opacity-30 animate-glow"
+                            class="absolute inset-0 bg-gradient-to-r from-primary-500 to-accent-500 rounded-3xl blur-2xl opacity-20 animate-glow"
                         >
                         </div>
 
                         <!-- Main Card -->
-                        <div class="relative glass-card p-8 w-80">
+                        <div class="relative apple-card p-8 w-80">
                             <div
                                 class="w-48 h-48 mx-auto rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mb-6"
                             >
@@ -132,36 +143,36 @@ const recentPosts = posts
                             <div class="grid grid-cols-3 gap-4 text-center">
                                 <div>
                                     <div
-                                        class="text-2xl font-bold text-gradient"
+                                        class="text-2xl font-semibold text-gradient"
                                     >
                                         {projects.length}+
                                     </div>
                                     <div
-                                        class="text-sm text-slate-500 dark:text-slate-400"
+                                        class="text-sm text-apple-darkgray"
                                     >
                                         Projects
                                     </div>
                                 </div>
                                 <div>
                                     <div
-                                        class="text-2xl font-bold text-gradient"
+                                        class="text-2xl font-semibold text-gradient"
                                     >
                                         {config.yearsOfExperience}
                                     </div>
                                     <div
-                                        class="text-sm text-slate-500 dark:text-slate-400"
+                                        class="text-sm text-apple-darkgray"
                                     >
                                         Years Exp
                                     </div>
                                 </div>
                                 <div>
                                     <div
-                                        class="text-2xl font-bold text-gradient"
+                                        class="text-2xl font-semibold text-gradient"
                                     >
                                         {posts.length}+
                                     </div>
                                     <div
-                                        class="text-sm text-slate-500 dark:text-slate-400"
+                                        class="text-sm text-apple-darkgray"
                                     >
                                         Articles
                                     </div>
@@ -175,7 +186,7 @@ const recentPosts = posts
     </section>
 
     <!-- Featured Projects Section -->
-    <section class="py-20 bg-slate-100/50 dark:bg-slate-800/20">
+    <section class="py-20 bg-white dark:bg-apple-gray/30">
         <div class="max-w-6xl mx-auto px-6">
             <div
                 class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12"
@@ -190,7 +201,7 @@ const recentPosts = posts
                 </div>
                 <a
                     href="/projects"
-                    class="inline-flex items-center text-primary-600 dark:text-primary-400 font-medium hover:underline"
+                    class="inline-flex items-center text-primary-500 font-medium hover:underline"
                 >
                     View all projects
                     <svg
@@ -219,7 +230,7 @@ const recentPosts = posts
     </section>
 
     <!-- Recent Blog Posts Section -->
-    <section class="py-20">
+    <section class="py-20 bg-apple-white dark:bg-apple-black">
         <div class="max-w-6xl mx-auto px-6">
             <div
                 class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12"
@@ -235,7 +246,7 @@ const recentPosts = posts
                 </div>
                 <a
                     href="/blog"
-                    class="inline-flex items-center text-primary-600 dark:text-primary-400 font-medium hover:underline"
+                    class="inline-flex items-center text-primary-500 font-medium hover:underline"
                 >
                     View all posts
                     <svg
@@ -260,7 +271,7 @@ const recentPosts = posts
     </section>
 
     <!-- Tech Stack Section -->
-    <section class="py-20 bg-slate-100/50 dark:bg-slate-800/20">
+    <section class="py-20 bg-white dark:bg-apple-gray/30">
         <div class="max-w-6xl mx-auto px-6 text-center">
             <h2 class="section-title mb-4">
                 Technologies I <span class="text-gradient">Work With</span>
@@ -269,7 +280,7 @@ const recentPosts = posts
                 Always learning, always building.
             </p>
 
-            <div class="flex flex-wrap justify-center gap-4">
+            <div class="flex flex-wrap justify-center gap-3">
                 {
                     [
                         "JavaScript",
@@ -285,8 +296,8 @@ const recentPosts = posts
                         "AWS",
                         "Git",
                     ].map((tech) => (
-                        <div class="glass-card px-6 py-3 hover-lift">
-                            <span class="font-medium text-slate-700 dark:text-slate-300">
+                        <div class="apple-card px-5 py-2.5 hover-lift">
+                            <span class="font-medium text-apple-black dark:text-white text-sm">
                                 {tech}
                             </span>
                         </div>

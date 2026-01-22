@@ -7,7 +7,22 @@
       "Bash(gh auth login:*)",
       "Bash(git init:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(netlify --version:*)",
+      "Bash(npm install:*)",
+      "Bash(netlify login:*)",
+      "Bash(netlify status:*)",
+      "Bash(netlify init:*)",
+      "Bash(netlify sites:list:*)",
+      "Bash(netlify deploy:*)",
+      "Bash(npx netlify-cli:*)",
+      "Bash(gh secret set:*)",
+      "Bash(gh secret list:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run watch:*)"
     ]
   }
 }
