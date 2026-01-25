@@ -3,6 +3,7 @@ title: "Graphene Trace"
 description: "A full-stack application for real-time pressure monitoring to prevent pressure ulcers, featuring heatmap visualization, analytics, and a clinical workflow."
 pubDate: 2025-01-10
 tags: ["FastAPI", "Python", "React", "TypeScript", "PostgreSQL", "Docker"]
+demoUrl: "https://graphene-trace-app.netlify.app"
 repoUrl: "https://github.com/catalindragusanu/Graphene-Trace"
 featured: true
 ---
