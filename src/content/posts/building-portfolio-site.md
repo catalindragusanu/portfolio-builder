@@ -179,4 +179,4 @@ The best portfolio is one that evolves with your career. With automated deployme
 
 ---
 
-*View the [live site](https://catalindragusanu.netlify.app) or check out the [source code on GitHub](https://github.com/catalindragusanu/Portfolio-Builder)!*
+*View the [live site](https://portfoliocatalindragusqanu.netlify.app) or check out the [source code on GitHub](https://github.com/catalindragusanu/Portfolio-Builder)!*

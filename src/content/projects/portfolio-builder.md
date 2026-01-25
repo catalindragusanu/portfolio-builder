@@ -3,7 +3,7 @@ title: "Portfolio Builder"
 description: "A static portfolio website with SEO optimization and automated deployment using Astro, TailwindCSS, and Netlify."
 pubDate: 2025-01-01
 tags: ["Astro", "TailwindCSS", "Netlify", "GitHub Actions", "SEO"]
-demoUrl: "https://catalindragusanu.netlify.app"
+demoUrl: "https://portfoliocatalindragusqanu.netlify.app"
 repoUrl: "https://github.com/catalindragusanu/Portfolio-Builder"
 featured: true
 ---
