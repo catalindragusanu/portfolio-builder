@@ -9,7 +9,6 @@ const config = {
     formSubmitEmail: import.meta.env.PUBLIC_FORMSUBMIT_EMAIL || import.meta.env.PUBLIC_CONTACT_EMAIL || "dragusanuc@gmail.com",
     github: import.meta.env.PUBLIC_GITHUB_USERNAME || "catalindragusanu",
     linkedin: import.meta.env.PUBLIC_LINKEDIN_USERNAME || "dragusanu-catalin-523b00178",
-    twitter: import.meta.env.PUBLIC_TWITTER_USERNAME || "yourusername",
     siteUrl: import.meta.env.SITE_URL || import.meta.env.PUBLIC_SITE_URL || "https://catalindragusanu.netlify.app",
 };
 ---
@@ -265,34 +264,6 @@ const config = {
                             </div>
                         </a>
 
-                        <a
-                            href={`https://twitter.com/${config.twitter}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="flex items-center gap-4 p-4 glass-card hover-lift group"
-                        >
-                            <div
-                                class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 group-hover:scale-110 transition-transform"
-                            >
-                                <svg
-                                    class="w-6 h-6"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                                    ></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <div class="font-medium">Twitter / X</div>
-                                <div
-                                    class="text-sm text-slate-600 dark:text-slate-400"
-                                >
-                                    @{config.twitter}
-                                </div>
-                            </div>
-                        </a>
                     </div>
                 </div>
             </div>
