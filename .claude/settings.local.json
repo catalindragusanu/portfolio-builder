@@ -22,7 +22,14 @@
       "Bash(gh secret set:*)",
       "Bash(gh secret list:*)",
       "Bash(gh run list:*)",
-      "Bash(gh run watch:*)"
+      "Bash(gh run watch:*)",
+      "Bash(powershell -Command \"$word = New-Object -ComObject Word.Application; $doc = $word.Documents.Open\\(''C:\\\\Users\\\\dragu\\\\Documents\\\\Portfolio Builder with Automated Deployment\\\\cv_reformatted.docx''\\); $doc.Content.Text; $doc.Close\\(\\); $word.Quit\\(\\)\")",
+      "Bash(powershell -Command:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\dragu\\\\Documents\\\\Portfolio Builder with Automated Deployment\\\\extract_docx.ps1\" -FilePath \"C:\\\\Users\\\\dragu\\\\Documents\\\\Portfolio Builder with Automated Deployment\\\\cv_reformatted.docx\":*)",
+      "Bash(powershell:*)",
+      "Bash(npx netlify status)",
+      "Bash(npx netlify:*)",
+      "WebFetch(domain:graphene-trace-app.netlify.app)"
     ]
   }
 }
