@@ -1,7 +1,7 @@
 ---
 interface Props {
     post: {
-        slug: string;
+        id: string;
         data: {
             title: string;
             description: string;
@@ -24,7 +24,7 @@ const formattedDate = new Date(pubDate).toLocaleDateString("en-US", {
 ---
 
 <article class="group glass-card overflow-hidden hover-lift">
-    <a href={`/blog/${post.slug}`} class="block">
+    <a href={`/blog/${post.id}`} class="block">
         <div class="flex flex-col sm:flex-row">
             <!-- Image (optional) -->
             {
